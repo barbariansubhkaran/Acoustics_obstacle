@@ -28,7 +28,7 @@ boundaryField
    inlet
     {
         type            uniformTotalPressure;
-        p0              table;
+        p0              table
         (
             //sine wave of 30Hz
             (0 201325)

@@ -20,29 +20,29 @@ internalField   uniform (0 0 0);
 
 boundaryField
 {
-    inlet
+    fixedWalls
     {
-        type            pressureInletOuletVelocity;
-        value           uniform (0 0 0);
+        type            noSlip;
+
     }
 
     outlet
     {
-        type inletOutlet;
-        inletValue uniform(0 0 0);
-        value uniform(0 0 0);
-    }
-
-    fixedWalls
-    {
-        type            noSlip;
+        type            inletOutlet;
+        inletValue      uniform (0 0 0);
+        value           $internalField;
     }
 
     frontAndBack
     {
         type            empty;
     }
-}
 
+    inlet
+    {
+        type            pressureInletOutletVelocity;
+        value           uniform(0 0 0);
+    }
+}
 
 // ************************************************************************* //
