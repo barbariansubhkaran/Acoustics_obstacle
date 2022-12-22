@@ -20,16 +20,22 @@ internalField   uniform (0 0 0);
 
 boundaryField
 {
-    movingWall
+    inlet
     {
-        type            fixedValue;
-        value           uniform (1 0 0);
+        type            pressureInletOuletVelocity;
+        value           uniform (0 0 0);
+    }
+
+    outlet
+    {
+        type inletOutlet;
+        inletValue uniform(0 0 0);
+        value uniform(0 0 0);
     }
 
     fixedWalls
     {
-        type            fixedValue;
-        value           uniform (0 0 0);
+        type            noSlip;
     }
 
     frontAndBack
