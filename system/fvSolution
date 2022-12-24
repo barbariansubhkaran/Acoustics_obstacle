@@ -45,7 +45,7 @@ solvers
         relTol          0.1;
     }
 
-    "(U|h|R|k|epsilon|omega|e)Final"
+    "(U|h|R|k|epsilon|omega)Final"
     {
         $U;
         relTol          0;
@@ -60,8 +60,8 @@ PIMPLE
     finalOnLastPimpleIterOnly   true;
     nNonOrthogonalCorrectors 0;
 
-    pMax            1.2e5;
-    pMin            0.8e5;
+    //pMax            0;
+    //pMin            0;
 }
 
 
