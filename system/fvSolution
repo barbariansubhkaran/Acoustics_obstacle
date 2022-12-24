@@ -45,7 +45,7 @@ solvers
         relTol          0.1;
     }
 
-    "(U|h|R|k|epsilon|omega)Final"
+    "(U|h|R|k|epsilon|omega|e)Final"
     {
         $U;
         relTol          0;
