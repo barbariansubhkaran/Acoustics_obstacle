@@ -1,62 +1,61 @@
-
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2206                                  |
-|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|  \\    /   O peration     | Version:  1812                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-    version     2.0;
+    version     1812;
     format      ascii;
-    arch        "LSB;label=32;scalar=64";
     class       dictionary;
     location    "system";
     object      controlDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+application     rhoPimpleFoam;
 
+startFrom       latestTime;
 
-application       rhoPimpleFoam;
+startTime       0;
 
-startFrom         startTime;
+stopAt          endTime;
 
-startTime         0;
+endTime         0.1;
 
-stopAt            endTime;
+deltaT          2.5e-6;
 
-endTime           0.3;
+writeControl    adjustableRunTime;
 
-deltaT            0.0002;
+writeInterval   5e-3;
 
-writeControl      timeStep;
+purgeWrite      200;
 
-writeInterval       10;
+writeFormat     ascii;
 
-purgeWrite           0;
+writePrecision  9;
 
-writeFormat           ascii;
+writeCompression on;
 
-writePrecision      6;
+timeFormat      general;
 
+timePrecision   6;
 
-writeCompression    off;
+runTimeModifiable true;
 
+adjustTimeStep  false;
 
-timeFormat         general;
+maxCo           0.5;
 
-timePrecision       6;
-
-
-runTimeModifiable   true;
-
-adjustTimeStep  no;
-
-maxCo    0.5;
+maxDeltaT       1e-5;
 
 functions
 {
-
+        #include "probeControl"
+        #include "fwhControl"
+        #include "sphereAverage"
 }
+
+// ************************************************************************* //

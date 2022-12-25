@@ -1,41 +1,45 @@
-
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2206                                  |
-|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|  \\    /   O peration     | Version:  1812                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-    version     2.0;
+    version     1812;
     format      ascii;
-    arch        "LSB;label=32;scalar=64";
     class       volScalarField;
-    location    "0";
     object      p;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions [1 -1 -2 0 0 0 0];
+dimensions              [1 -1 -2 0 0 0 0];
 
-internalField uniform 101325;
+internalField           uniform 101325;
 
 boundaryField
 {
+    "(cyc1|cyc2)"
+    {
+        type            wedge;
+    }
 
-     Walls
-     {
+    free
+    {
+        type            waveTransmissive;
+        field           p;
+        phi             phi;
+        rho             rho;
+        psi             thermo:psi;
+        gamma           1.4;
+        value           uniform 101325;
+    }
 
-       type waveTransmissive;
-       field p;
-       psi thermo:psi;
-       gamma 1.4;
-       fieldInf 101325;
-       lInf    3;
-       value uniform 101325;
-     }
-
- 
-
+    sphere
+    {
+        type            zeroGradient;
+    }
 }
+
+// ************************************************************************* //

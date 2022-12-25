@@ -1,8 +1,8 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  v2206                                 |
-|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -10,6 +10,7 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
+    location    "system";
     object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -24,46 +25,60 @@ gradSchemes
     default         Gauss linear;
 }
 
+defaultAdvScheme     vanLeer;
+defaultAdvSchemeV                                   vanLeer;
+
 divSchemes
 {
-    default         none;
+    default                                         none;
+    div(phi,k)                                      Gauss upwind;
+    div(phi,epsilon)                                Gauss upwind;
 
-    div(phi,U)      Gauss limitedLinearV 1;
-    div(U)          Gauss linear;
+    //momentum equation
+    div(phi,U)                                      Gauss $defaultAdvSchemeV;
+    div(((rho*nuEff)*dev2(T(grad(U)))))             Gauss linear;
 
-    div(phid,p)     Gauss limitedLinear 1;
-    div(phi,K)      Gauss linear;
-    div(phi,h)      Gauss limitedLinear 1;
+    //energy equation
+    div(phi,h)                                      Gauss $defaultAdvScheme;
+    div(phi,K)                                      Gauss $defaultAdvScheme;
 
-    turbulence      Gauss limitedLinear 1;
-    div(phi,k)      $turbulence;
-    div(phi,epsilon) $turbulence;
-    div(phi,R)      $turbulence;
-    div(phi,omega)  $turbulence;
-    div((rho*R))    Gauss linear;
-    div(R)          Gauss linear;
+    //continuity equation
+    div(phid,p)                                     Gauss $defaultAdvScheme;
 
-    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+    div(((rho*nuEff)*dev2(T(grad(U)))))             Gauss linear;
+
+    div(meshPhi,p)                                  Gauss vanLeer;
+    div((meshPhi*interpolate(thermo:psi)),pcorr)    Gauss vanLeer;
+
+    div(((rho*U)*U))                                Gauss linear; //FWH analogy
 }
 
 laplacianSchemes
 {
-    default         Gauss linear orthogonal;
+    default                                         Gauss linear corrected;
 }
 
 interpolationSchemes
 {
-    default         linear;
+    default                                         linear;
+
+    reconstruct(rho)                                $defaultAdvScheme;
+    reconstruct(psi)                                $defaultAdvScheme;
+    reconstruct(p)                                  $defaultAdvScheme;
+    reconstruct(U)                                  $defaultAdvSchemeV;
+    reconstruct(rho*U)                              $defaultAdvSchemeV;
+    reconstruct(Dp)                                 $defaultAdvScheme;
 }
 
 snGradSchemes
 {
-    default         orthogonal;
+    default                                         corrected;
 }
 
-wallDist
+fluxRequired
 {
-    method          meshWave;
+    p;
+    pcorr;
 }
 
 
