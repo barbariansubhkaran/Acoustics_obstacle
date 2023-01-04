@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     rhoPimpleFoam;
+application     rhoPimpleFoam; //Compressible solver
 
 startFrom       latestTime;
 

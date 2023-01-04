@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 4;
+numberOfSubdomains 4;   //This case is made to run on 4 cores,you can write the number of cores according to your computer
 
 method          scotch;
 
