@@ -1,5 +1,5 @@
 # Acoustics_obstacle
-## Modeling of sound waves around an obstacle using OpenFOAM.
+## Modeling of sound waves around an obstacle using OpenFOAM v1812.
 
 ### This is an OpenFOAM case to model soundwaves using rhoPimpleFoam, compressible solver. 
 
